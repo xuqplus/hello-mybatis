@@ -10,6 +10,12 @@
         </if>
     </select>
 
+    <select id="getFirstByName" resultMap="UserMap" databaseId="oracle">
+        SELECT t.* FROM (
+        SELECT u.*, ROW_NUMBER() OVER(PARTITION BY id ORDER BY id ASC) rn FROM app_user u) t
+        WHERE t.rn = 1
+    </select>
+
     <resultMap type="com.github.xuqplus.hello.mybatis3.domain.User" id="UserMap">
         <id column="id" property="id"/>
         <result column="index0" property="index"/>
